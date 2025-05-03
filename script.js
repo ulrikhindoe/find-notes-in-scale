@@ -90,6 +90,9 @@ document.getElementById("startButton").addEventListener("click", () => {
         return;
     }
 
+    // Clear the output box when the start button is clicked
+    document.getElementById("output").textContent = "";
+
     const delay = parseInt(document.getElementById("delaySelect").value) * 1000;
     const stepCount = parseInt(document.getElementById("stepCount").value);
     const useSharps = isKeySharp(currentKey);

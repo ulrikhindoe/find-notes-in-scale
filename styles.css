@@ -69,6 +69,7 @@ button:hover {
     display: flex;
     align-items: center;
     padding: 0;
+    margin-left: 15px;
 }
 
 #controls select, #controls input {
@@ -107,6 +108,7 @@ button:hover {
     }
 
     #controls label, #controls input {
+        margin-left: 0;
         width: 100%;
         margin-bottom: 5px;
     }
