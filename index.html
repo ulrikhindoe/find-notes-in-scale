@@ -10,20 +10,9 @@
     <h1>Find Notes in Scale</h1>
     <div id="controls">
         <label for="delaySelect">Delay (seconds):</label>
-        <select id="delaySelect">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3" selected>3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-        </select>
-        <label for="degreeCount">Number of Degrees:</label>
-        <input type="number" id="degreeCount" value="20" min="1" max="100">
+        <input type="number" id="delaySelect" step="0.1" min="0.1" max="5" value="3">
+        <label for="stepCount">Number of steps:</label>
+        <input type="number" id="stepCount" value="20" min="1" max="100">
     </div>
     <div id="buttons">
         <button id="randomKeyButton">Pick Random Key</button>

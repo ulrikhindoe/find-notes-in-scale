@@ -91,15 +91,15 @@ document.getElementById("startButton").addEventListener("click", () => {
     }
 
     const delay = parseInt(document.getElementById("delaySelect").value) * 1000;
-    const degreeCount = parseInt(document.getElementById("degreeCount").value);
+    const stepCount = parseInt(document.getElementById("stepCount").value);
     const useSharps = isKeySharp(currentKey);
     const useFlats = isKeyFlat(currentKey);
 
     let count = 0;
-    updateProgress(count, degreeCount);
+    updateProgress(count, stepCount);
 
     exerciseInterval = setInterval(() => {
-        if (count >= degreeCount) {
+        if (count >= stepCount) {
             clearInterval(exerciseInterval);
             return;
         }
@@ -123,7 +123,7 @@ document.getElementById("startButton").addEventListener("click", () => {
         }, delay);
 
         count++;
-        updateProgress(count, degreeCount);
+        updateProgress(count, stepCount);
     }, delay + 1000);
 });
 
