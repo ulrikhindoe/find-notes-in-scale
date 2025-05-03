@@ -101,6 +101,7 @@ document.getElementById("startButton").addEventListener("click", () => {
     const delay = parseFloat(document.getElementById("delaySelect").value) * 1000;
     const stepCount = parseInt(document.getElementById("stepCount").value);
     const useSharps = isKeySharp(currentKey);
+    const playSound = document.getElementById("playSound").value === "true"; // Correctly parse the dropdown value
 
     let count = 0;
     updateProgress(count, stepCount);
@@ -128,7 +129,9 @@ document.getElementById("startButton").addEventListener("click", () => {
         setTimeout(() => {
             if (count < stepCount) { // Ensure no extra note is played after stopping
                 updateOutput(degree, note); // Add the note after the delay
-                playNoteSafely(noteFrequencies[note]);
+                if (playSound) {
+                    playNoteSafely(noteFrequencies[note]); // Play sound only if enabled
+                }
             }
         }, delay);
 
@@ -154,7 +157,9 @@ document.getElementById("startButton").addEventListener("click", () => {
         setTimeout(() => {
             if (count < stepCount) {
                 updateOutput(degree, note);
-                playNoteSafely(noteFrequencies[note]);
+                if (playSound) {
+                    playNoteSafely(noteFrequencies[note]); // Play sound only if enabled
+                }
             }
         }, delay);
 

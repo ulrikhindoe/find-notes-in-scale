@@ -66,14 +66,20 @@ button:hover {
 }
 
 #controls label {
-    display: flex;
-    align-items: center;
+    display: inline-flex;
+    align-items: center; /* Ensure vertical alignment */
+    gap: 8px; /* Add consistent spacing */
     padding: 0;
     margin-left: 15px;
 }
 
-#controls select, #controls input {
+#controls input {
     margin: 0;
+}
+
+#controls input[type="checkbox"] {
+    transform: translateY(1px); /* Adjust vertical alignment slightly */
+    margin-left: 5px; /* Add a small space between the label and checkbox */
 }
 
 #buttons {
@@ -90,6 +96,18 @@ button:hover {
 #progress {
     font-size: 14px; /* Make the font smaller */
     margin-top: 5px; /* Reduce vertical space */
+}
+
+#settings {
+    opacity: 0.8; /* Make the section less prominent */
+    font-size: 0.9em; /* Slightly reduce the font size */
+    margin-top: 20px;
+}
+
+#settings h2 {
+    text-align: center; /* Center the headline */
+    font-size: 1.2em; /* Slightly smaller headline */
+    color: #666; /* Less prominent color */
 }
 
 @media (max-width: 600px) {
