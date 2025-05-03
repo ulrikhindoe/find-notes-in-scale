@@ -51,11 +51,11 @@ function updateCurrentKeyDisplay() {
 }
 
 function isKeySharp(key) {
-    return key.includes("#");
+    return ["C#", "E", "F#", "G#", "B"].includes(key);
 }
 
 function isKeyFlat(key) {
-    return key.includes("b");
+    return ["C", "D", "Eb", "F", "G", "A", "Bb"].includes(key);
 }
 
 function getNoteName(noteIndex, useSharps) {
