@@ -98,7 +98,7 @@ document.getElementById("startButton").addEventListener("click", () => {
     // Clear the output box when the start button is clicked
     document.getElementById("output").textContent = "";
 
-    const delay = parseFloat(document.getElementById("delaySelect").value) * 1000;
+    const delay = parseDelayValue(document.getElementById("delaySelect").value) * 1000;
     const stepCount = parseInt(document.getElementById("stepCount").value);
     const useSharps = isKeySharp(currentKey);
     const playSound = document.getElementById("playSound").value === "true"; // Correctly parse the dropdown value
@@ -182,3 +182,11 @@ document.getElementById("stopButton").addEventListener("click", () => {
 
 // Automatically pick a random key when the page is loaded
 window.addEventListener("load", pickRandomKey);
+
+document.getElementById("delaySelect").addEventListener("input", (event) => {
+    event.target.value = event.target.value.replace(",", "."); // Replace commas with periods
+});
+
+function parseDelayValue(value) {
+    return parseFloat(value.replace(",", ".")); // Ensure both commas and periods are accepted
+}
