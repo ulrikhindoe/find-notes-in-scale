@@ -47,7 +47,7 @@ let exerciseInterval = null;
 let lastDegreeIndex = null;
 
 function updateCurrentKeyDisplay() {
-    document.getElementById("currentKey").textContent = `Current Key: ${currentKey || "None"}`;
+    document.getElementById("currentKey").textContent = `Current Key: ${currentKey || "None"} natural minor`;
 }
 
 function isKeySharp(key) {
@@ -62,6 +62,16 @@ function getNoteName(noteIndex, useSharps) {
     const sharpNotes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
     const flatNotes = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
     return useSharps ? sharpNotes[noteIndex] : flatNotes[noteIndex];
+}
+
+// Update progress indicator
+function updateProgress(current, total) {
+    document.getElementById("progress").textContent = `Progress: ${current}/${total}`;
+}
+
+// Update the output to always show the degree and conditionally show the note
+function updateOutput(degree, note = "") {
+    document.getElementById("output").textContent = `Degree: ${degree} ${note ? "| Note: " + note : ""}`;
 }
 
 // Update the currentKey display whenever a new key is picked
@@ -86,6 +96,8 @@ document.getElementById("startButton").addEventListener("click", () => {
     const useFlats = isKeyFlat(currentKey);
 
     let count = 0;
+    updateProgress(count, degreeCount);
+
     exerciseInterval = setInterval(() => {
         if (count >= degreeCount) {
             clearInterval(exerciseInterval);
@@ -103,14 +115,15 @@ document.getElementById("startButton").addEventListener("click", () => {
         const noteIndex = (keys.indexOf(currentKey) + naturalMinorIntervals[randomDegreeIndex]) % 12;
         const note = getNoteName(noteIndex, useSharps);
 
-        document.getElementById("output").textContent = `Degree: ${degree}`;
+        updateOutput(degree); // Show only the degree initially
 
         setTimeout(() => {
-            document.getElementById("output").textContent = `Note: ${note}`;
+            updateOutput(degree, note); // Add the note after the delay
             playNoteSafely(noteFrequencies[note]);
         }, delay);
 
         count++;
+        updateProgress(count, degreeCount);
     }, delay + 1000);
 });
 

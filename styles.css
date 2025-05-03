@@ -46,9 +46,15 @@ button:hover {
 }
 
 #output {
-    margin-top: 20px;
-    font-size: 20px;
-    color: #555;
+    visibility: visible; /* Ensure the container is always visible */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 50px auto 0 auto; /* Center horizontally and move down vertically */
+    font-size: 24px; /* Make the text larger */
+    padding: 20px; /* Add padding for a bigger appearance */
+    width: 400px; /* Increase the width */
+    text-align: center; /* Ensure text is centered within the container */
 }
 
 #controls {
