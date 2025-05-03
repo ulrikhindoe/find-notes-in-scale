@@ -85,6 +85,11 @@ function pickRandomKey() {
 document.getElementById("randomKeyButton").addEventListener("click", pickRandomKey);
 
 document.getElementById("startButton").addEventListener("click", () => {
+    if (exerciseInterval) {
+        clearInterval(exerciseInterval); // Stop the current exercise
+        exerciseInterval = null;
+    }
+
     if (!currentKey) {
         alert("Please pick a key first!");
         return;
@@ -93,10 +98,9 @@ document.getElementById("startButton").addEventListener("click", () => {
     // Clear the output box when the start button is clicked
     document.getElementById("output").textContent = "";
 
-    const delay = parseInt(document.getElementById("delaySelect").value) * 1000;
+    const delay = parseFloat(document.getElementById("delaySelect").value) * 1000;
     const stepCount = parseInt(document.getElementById("stepCount").value);
     const useSharps = isKeySharp(currentKey);
-    const useFlats = isKeyFlat(currentKey);
 
     let count = 0;
     updateProgress(count, stepCount);
@@ -104,7 +108,8 @@ document.getElementById("startButton").addEventListener("click", () => {
     exerciseInterval = setInterval(() => {
         if (count >= stepCount) {
             clearInterval(exerciseInterval);
-            return;
+            exerciseInterval = null; // Ensure the interval is cleared
+            return; // Exit the function to prevent extra notes
         }
 
         let randomDegreeIndex;
@@ -121,8 +126,10 @@ document.getElementById("startButton").addEventListener("click", () => {
         updateOutput(degree); // Show only the degree initially
 
         setTimeout(() => {
-            updateOutput(degree, note); // Add the note after the delay
-            playNoteSafely(noteFrequencies[note]);
+            if (count < stepCount) { // Ensure no extra note is played after stopping
+                updateOutput(degree, note); // Add the note after the delay
+                playNoteSafely(noteFrequencies[note]);
+            }
         }, delay);
 
         count++;
@@ -132,9 +139,13 @@ document.getElementById("startButton").addEventListener("click", () => {
 
 document.getElementById("stopButton").addEventListener("click", () => {
     if (exerciseInterval) {
-        clearInterval(exerciseInterval);
-        exerciseInterval = null;
-        document.getElementById("output").textContent = "Exercise stopped.";
+        clearInterval(exerciseInterval); // Stop the interval
+        exerciseInterval = null; // Reset the interval variable
+        lastDegreeIndex = null; // Reset the last degree index
+        document.getElementById("output").textContent = "Exercise stopped."; // Update the UI
+        updateProgress(0, 0); // Reset the progress indicator
+    } else {
+        document.getElementById("output").textContent = "No exercise is currently running."; // Inform the user
     }
 });
 
