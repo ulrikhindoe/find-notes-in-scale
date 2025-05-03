@@ -183,10 +183,6 @@ document.getElementById("stopButton").addEventListener("click", () => {
 // Automatically pick a random key when the page is loaded
 window.addEventListener("load", pickRandomKey);
 
-document.getElementById("delaySelect").addEventListener("input", (event) => {
-    event.target.value = event.target.value.replace(",", "."); // Replace commas with periods
-});
-
 function parseDelayValue(value) {
     return parseFloat(value.replace(",", ".")); // Ensure both commas and periods are accepted
 }
