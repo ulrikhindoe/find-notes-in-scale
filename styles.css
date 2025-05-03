@@ -156,7 +156,3 @@ button:hover {
         text-align: center;
     }
 }
-
-input[type="number"]::-webkit-inner-spin-button {
-    display: inline;
-}
