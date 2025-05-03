@@ -135,6 +135,32 @@ document.getElementById("startButton").addEventListener("click", () => {
         count++;
         updateProgress(count, stepCount);
     }, delay + 1000);
+
+    // Immediately show the first degree
+    if (count < stepCount) {
+        let randomDegreeIndex;
+        do {
+            randomDegreeIndex = Math.floor(Math.random() * degrees.length);
+        } while (randomDegreeIndex === lastDegreeIndex);
+
+        lastDegreeIndex = randomDegreeIndex;
+
+        const degree = degrees[randomDegreeIndex];
+        const noteIndex = (keys.indexOf(currentKey) + naturalMinorIntervals[randomDegreeIndex]) % 12;
+        const note = getNoteName(noteIndex, useSharps);
+
+        updateOutput(degree); // Show the first degree immediately
+
+        setTimeout(() => {
+            if (count < stepCount) {
+                updateOutput(degree, note);
+                playNoteSafely(noteFrequencies[note]);
+            }
+        }, delay);
+
+        count++;
+        updateProgress(count, stepCount);
+    }
 });
 
 document.getElementById("stopButton").addEventListener("click", () => {
