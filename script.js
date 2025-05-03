@@ -127,7 +127,7 @@ document.getElementById("startButton").addEventListener("click", () => {
         updateOutput(degree); // Show only the degree initially
 
         setTimeout(() => {
-            if (count < stepCount) { // Ensure no extra note is played after stopping
+            if (count <= stepCount) { // Adjust condition to include the last step
                 updateOutput(degree, note); // Add the note after the delay
                 if (playSound) {
                     playNoteSafely(noteFrequencies[note]); // Play sound only if enabled
