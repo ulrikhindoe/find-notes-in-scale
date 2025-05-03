@@ -125,10 +125,14 @@ button:hover {
         align-items: stretch;
     }
 
-    #controls label, #controls input {
+    #controls label, #controls input, #controls select {    
         margin-left: 0;
         width: 100%;
         margin-bottom: 5px;
+    }
+
+    #controls label {    
+        margin-top: 5px;
     }
 
     #buttons {
