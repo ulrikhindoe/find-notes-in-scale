@@ -180,6 +180,13 @@ document.getElementById("stopButton").addEventListener("click", () => {
     }
 });
 
+document.getElementById("delaySelect").addEventListener("input", (event) => {
+    const inputField = event.target;
+    const cursorPosition = inputField.selectionStart; // Save the cursor position
+    inputField.value = inputField.value.replace(",", "."); // Replace commas with periods
+    inputField.setSelectionRange(cursorPosition, cursorPosition); // Restore the cursor position
+});
+
 // Automatically pick a random key when the page is loaded
 window.addEventListener("load", pickRandomKey);
 
