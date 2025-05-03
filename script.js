@@ -1,0 +1,126 @@
+const keys = ["C", "C#", "D", "Eb", "E", "F", "F#", "G", "G#", "A", "Bb", "B"];
+const degrees = ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th"];
+const naturalMinorIntervals = [0, 2, 3, 5, 7, 8, 10];
+
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+function playNoteSafely(frequency) {
+    if (!frequency) {
+        console.error("Invalid frequency provided to playNote.");
+        return;
+    }
+
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 1);
+}
+
+const noteFrequencies = {
+    "C": 261.63,
+    "C#": 277.18,
+    "Db": 277.18,
+    "D": 293.66,
+    "D#": 311.13,
+    "Eb": 311.13,
+    "E": 329.63,
+    "F": 349.23,
+    "F#": 369.99,
+    "Gb": 369.99,
+    "G": 392.00,
+    "G#": 415.30,
+    "Ab": 415.30,
+    "A": 440.00,
+    "A#": 466.16,
+    "Bb": 466.16,
+    "B": 493.88
+};
+
+let currentKey = null;
+let exerciseInterval = null;
+let lastDegreeIndex = null;
+
+function updateCurrentKeyDisplay() {
+    document.getElementById("currentKey").textContent = `Current Key: ${currentKey || "None"}`;
+}
+
+function isKeySharp(key) {
+    return key.includes("#");
+}
+
+function isKeyFlat(key) {
+    return key.includes("b");
+}
+
+function getNoteName(noteIndex, useSharps) {
+    const sharpNotes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
+    const flatNotes = ["C", "Db", "D", "Eb", "E", "F", "Gb", "G", "Ab", "A", "Bb", "B"];
+    return useSharps ? sharpNotes[noteIndex] : flatNotes[noteIndex];
+}
+
+// Update the currentKey display whenever a new key is picked
+function pickRandomKey() {
+    const randomIndex = Math.floor(Math.random() * keys.length);
+    currentKey = keys[randomIndex];
+    document.getElementById("output").textContent = ``;
+    updateCurrentKeyDisplay();
+}
+
+document.getElementById("randomKeyButton").addEventListener("click", pickRandomKey);
+
+document.getElementById("startButton").addEventListener("click", () => {
+    if (!currentKey) {
+        alert("Please pick a key first!");
+        return;
+    }
+
+    const delay = parseInt(document.getElementById("delaySelect").value) * 1000;
+    const degreeCount = parseInt(document.getElementById("degreeCount").value);
+    const useSharps = isKeySharp(currentKey);
+    const useFlats = isKeyFlat(currentKey);
+
+    let count = 0;
+    exerciseInterval = setInterval(() => {
+        if (count >= degreeCount) {
+            clearInterval(exerciseInterval);
+            return;
+        }
+
+        let randomDegreeIndex;
+        do {
+            randomDegreeIndex = Math.floor(Math.random() * degrees.length);
+        } while (randomDegreeIndex === lastDegreeIndex);
+
+        lastDegreeIndex = randomDegreeIndex;
+
+        const degree = degrees[randomDegreeIndex];
+        const noteIndex = (keys.indexOf(currentKey) + naturalMinorIntervals[randomDegreeIndex]) % 12;
+        const note = getNoteName(noteIndex, useSharps);
+
+        document.getElementById("output").textContent = `Degree: ${degree}`;
+
+        setTimeout(() => {
+            document.getElementById("output").textContent = `Note: ${note}`;
+            playNoteSafely(noteFrequencies[note]);
+        }, delay);
+
+        count++;
+    }, delay + 1000);
+});
+
+document.getElementById("stopButton").addEventListener("click", () => {
+    if (exerciseInterval) {
+        clearInterval(exerciseInterval);
+        exerciseInterval = null;
+        document.getElementById("output").textContent = "Exercise stopped.";
+    }
+});
+
+// Automatically pick a random key when the page is loaded
+window.addEventListener("load", pickRandomKey);
